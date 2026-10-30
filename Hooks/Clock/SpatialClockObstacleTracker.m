@@ -240,7 +240,15 @@ static CGRect SpatialGetPresentationFrameInContainer(UIView *view, UIView *conta
             targetTop = MIN(baseClockTop, pushLimit);
         }
     }
-    
+        // Center the compressed clock between the date and the notifications.
+    if (rawTargetProgress < 1.0 && nearestTop != CGFLOAT_MAX) {
+        const CGFloat kCenterBias = -9.0; // fine tune: bigger = lower
+        CGFloat h = MAX(clockMinHeight, clock.currentContentHeight);
+        CGFloat room = nearestTop - baseClockTop;
+        CGFloat centered = baseClockTop + kCenterBias + (room - h) * 0.5;
+        centered = MIN(centered, nearestTop - kTopPadding - h);
+        targetTop = baseClockTop + (centered - baseClockTop) * (1.0 - rawTargetProgress);
+    }
     if (rawTargetProgress >= 0.985) {
         rawTargetProgress = 1.0;
     }

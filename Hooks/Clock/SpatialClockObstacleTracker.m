@@ -189,7 +189,7 @@ static CGRect SpatialGetPresentationFrameInContainer(UIView *view, UIView *conta
     UIView *nearestView = nil;
     CGRect nearestFrame = CGRectZero;
     
-    const CGFloat kClearanceMargin = 24.0; 
+    const CGFloat kClearanceMargin = 36.0; 
     const CGFloat kTopPadding = 6.0;       
     CGFloat clockMaxHeight = (clock.fullExpandedHeight > 100.0) ? clock.fullExpandedHeight : 330.0;
     CGFloat clockMaxReach = baseClockTop + clockMaxHeight + kClearanceMargin + kTopPadding;
@@ -222,12 +222,12 @@ static CGRect SpatialGetPresentationFrameInContainer(UIView *view, UIView *conta
     CGFloat targetTop = baseClockTop;
     CGFloat rawTargetProgress = 1.0;
     
-    if (nearestTop == CGFLOAT_MAX || nearestTop >= 355.0f) {
+    if (nearestTop == CGFLOAT_MAX || nearestTop >= clockMaxReach) {
         rawTargetProgress = 1.0;
         targetTop = baseClockTop;
     } else {
         CGFloat availableHeight = nearestTop - baseClockTop - kTopPadding - kClearanceMargin;
-        CGFloat safeMaxHeight = 200.0f;
+        CGFloat safeMaxHeight = MAX(200.0f, clockMaxHeight);
         if (availableHeight >= safeMaxHeight) {
             rawTargetProgress = 1.0;
             targetTop = baseClockTop;
@@ -241,7 +241,7 @@ static CGRect SpatialGetPresentationFrameInContainer(UIView *view, UIView *conta
         }
     }
     
-    if (rawTargetProgress >= 0.94) {
+    if (rawTargetProgress >= 0.985) {
         rawTargetProgress = 1.0;
     }
     self.targetProgress = MAX(0.0, MIN(1.0, rawTargetProgress));

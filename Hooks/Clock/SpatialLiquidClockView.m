@@ -694,8 +694,8 @@ static void computeMeijsterEDT(const uint8_t *binaryMask, uint8_t *distOut, int 
 
             LGClockResolveAxes(p, self.userWidth, self.userHeight, &widthAxis, &heightAxis);
 
-            // Fixed font size like the original clock: only the height axis changes while compressing.
-            pointSize = 112.0 * self.userScale;
+            // Slightly smaller while compressed so the clock stays above the notifications.
+            pointSize = (84.0 + 28.0 * MAX(0.0, MIN(1.0, p / 0.60))) * self.userScale;
         }
         
         NSString *renderKey = [NSString stringWithFormat:@"%@|%.1f|%.1f|%.1f|%.1f|%.1f|%d|%.1f|%.1f|%.1f|%.1f|%.1f",
@@ -823,8 +823,8 @@ static void computeMeijsterEDT(const uint8_t *binaryMask, uint8_t *distOut, int 
         widthAxis = 85.0;
     } else {
         LGClockResolveAxes(p, self.userWidth, self.userHeight, &widthAxis, &heightAxis);
-        // Fixed font size like the original clock: only the height axis changes while compressing.
-            pointSize = 112.0 * self.userScale;
+        // Slightly smaller while compressed so the clock stays above the notifications.
+            pointSize = (84.0 + 28.0 * MAX(0.0, MIN(1.0, p / 0.60))) * self.userScale;
     }
     
     self.lastRenderKey = [NSString stringWithFormat:@"%@|%.1f|%.1f|%.1f|%.1f|%.1f|%d|%.1f|%.1f",
